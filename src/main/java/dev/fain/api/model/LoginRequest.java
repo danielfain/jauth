@@ -1,6 +1,7 @@
 package dev.fain.api.model;
 
 public class LoginRequest {
+
   private String email;
   private String password;
 
@@ -22,4 +23,5 @@ public class LoginRequest {
   public String getPassword() {
     return this.password;
   }
+  
 }

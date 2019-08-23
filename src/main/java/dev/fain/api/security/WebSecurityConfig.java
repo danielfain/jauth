@@ -25,9 +25,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
       .antMatchers("/user/signup").permitAll()
       .anyRequest().authenticated();
 
-    // redirect to login if request is made without authorization  
-    http.exceptionHandling().accessDeniedPage("/login");
-
   }
 
 }
