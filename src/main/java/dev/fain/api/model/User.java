@@ -1,5 +1,6 @@
 package dev.fain.api.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,8 +11,13 @@ public class User {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(unique = true)
   private long id;
+
+  @Column(unique = true)
   private String email;
+
+  @Column
   private String passwordHash;
 
   // Used by JPA

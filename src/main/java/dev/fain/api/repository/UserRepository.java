@@ -10,4 +10,5 @@ import dev.fain.api.model.User;
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
   public List<User> findAll();
+  public User findByEmail(String email);
 }

@@ -11,13 +11,19 @@ import dev.fain.api.repository.UserRepository;
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+  @Autowired
+  private UserRepository userRepository;
 
-    public UserService() {}
+  public List<User> getAllUsers(){
+      return userRepository.findAll();
+  }
 
-    public List<User> getAllUsers(){
-        return userRepository.findAll();
-    }
+  public User getUserByEmail(String email) {
+      return userRepository.findByEmail(email);
+  }
+
+  public void createUser(User user) {
+      userRepository.save(user);
+  }
 
 }
