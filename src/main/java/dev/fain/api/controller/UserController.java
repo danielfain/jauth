@@ -24,9 +24,6 @@ public class UserController {
 
 	@PostMapping(path = "/signup", consumes = "application/json", produces = "application/json")
 	public SignupResponse signup(@RequestBody SignupRequest userDetails) {
-		// encodes password with bcrypt and returns its hash
-		String passwordHash = userService.encodePassword(userDetails.getPassword());
-		userService.createUser(new User(userDetails.getEmail(), passwordHash));
 		return new SignupResponse("accessToken", "refreshToken");
 	}
 
