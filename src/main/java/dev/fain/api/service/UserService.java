@@ -11,8 +11,12 @@ import dev.fain.api.repository.UserRepository;
 @Service
 public class UserService {
 
-  @Autowired
   private UserRepository userRepository;
+
+  @Autowired
+  public UserService(UserRepository userRepository) {
+    this.userRepository = userRepository;
+  }
 
   public List<User> getAllUsers(){
       return userRepository.findAll();

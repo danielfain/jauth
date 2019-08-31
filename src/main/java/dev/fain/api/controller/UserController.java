@@ -14,8 +14,12 @@ import dev.fain.api.model.SignupResponse;
 @RequestMapping("/user")
 public class UserController {
 
-	@Autowired
 	private UserService userService;
+
+	@Autowired
+	public UserController(UserService userService) {
+		this.userService = userService;
+	}
 
 	@PostMapping(path = "/login", consumes = "application/json", produces = "application/json")
 	public LoginResponse login(@RequestBody LoginRequest userDetails) {

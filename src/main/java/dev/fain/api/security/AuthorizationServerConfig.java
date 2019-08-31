@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -15,34 +14,30 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.approval.UserApprovalHandler;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
-import javax.sql.DataSource;
-
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
-  @Autowired
-  private TokenStore tokenStore;
-
-  @Autowired
-  private UserApprovalHandler userApprovalHandler;
-
-  @Autowired
   @Qualifier("authenticationManagerBean")
   private AuthenticationManager authenticationManager;
-
-  @Autowired
+  private TokenStore tokenStore;
+  private UserApprovalHandler userApprovalHandler;
   private PasswordEncoder encoder;
-
   @Value("${secretId}")
   private String secretId;
 
-  private final String clientId = "jKk3cytfbNu1bQI";
+  @Autowired
+  public AuthorizationServerConfig(AuthenticationManager authenticationManager, TokenStore tokenStore, UserApprovalHandler userApprovalHandler, PasswordEncoder encoder) {
+    this.authenticationManager = authenticationManager;
+    this.tokenStore = tokenStore;
+    this.userApprovalHandler = userApprovalHandler;
+    this.encoder = encoder;
+  }
 
   @Override
   public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
     clients.inMemory()
-      .withClient(clientId)
+      .withClient("jKk3cytfbNu1bQI")
         .authorizedGrantTypes("password", "refresh_token")
         .authorities("ROLE_CLIENT", "ROLE_TRUSTED_CLIENT")
         .scopes("read", "write")

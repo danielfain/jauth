@@ -8,8 +8,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
@@ -24,11 +22,13 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 @EnableWebSecurity
 public class OAuth2SecurityConfig extends WebSecurityConfigurerAdapter {
 
-  @Autowired
   private ClientDetailsService clientDetailsService;
-
-  @Autowired
   private PasswordEncoder encoder;
+
+  public OAuth2SecurityConfig(ClientDetailsService clientDetailsService, PasswordEncoder encoder) {
+    this.clientDetailsService = clientDetailsService;
+    this.encoder = encoder;
+  }
 
   @Autowired
   public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
@@ -44,6 +44,8 @@ public class OAuth2SecurityConfig extends WebSecurityConfigurerAdapter {
 
     http.authorizeRequests()
       .antMatchers("/oauth/token").permitAll()
+      .antMatchers("/user/login").permitAll()
+      .antMatchers("/user/signup").permitAll()
       .and()
       .authorizeRequests().anyRequest().authenticated();
   }
